@@ -1,4 +1,4 @@
-import { Container, Filters, SortPopup, Title } from '@/components/shared';
+import { Container, Filters, ProductCard, SortPopup, Title } from '@/components/shared';
 import { Categories } from '@/components/shared/';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -23,7 +23,14 @@ export default function Home() {
             <Filters />
           </div>
           <div className="flex-1">
-            <div className="flex flex-col gap-16">Pizza1 Pizza2</div>
+            <div className="flex flex-col gap-16">
+              <ProductCard
+                id={1}
+                name="Chicken Supreme"
+                price={520}
+                imageUrl="https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif"
+              />
+            </div>
           </div>
         </div>
       </Container>
