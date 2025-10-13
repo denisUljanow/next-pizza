@@ -26,7 +26,7 @@ export const ProductCard: React.FC<Props> = ({ name, price, count, imageUrl, cla
 
       <div className="flex justify-between items-center mt-4">
         <span className="text-[20px]">
-          ab <b>{price} ₽</b>
+          ab <b>{price} €</b>
         </span>
 
         <Button variant="secondary">

@@ -1,7 +1,15 @@
-import { Container, Filters, ProductCard, SortPopup, Title } from '@/components/shared';
+import {
+  Container,
+  Filters,
+  ProductCard,
+  ProductsGroupList,
+  SortPopup,
+  Title,
+} from '@/components/shared';
 import { Categories } from '@/components/shared/';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { setDefaultHighWaterMark } from 'stream';
 
 export default function Home() {
   return (
@@ -24,11 +32,87 @@ export default function Home() {
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              <ProductCard
-                id={1}
-                name="Chicken Supreme"
-                price={520}
-                imageUrl="https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif"
+              <ProductsGroupList
+                title="Pizzas"
+                items={[
+                  {
+                    id: 1,
+                    name: 'Chicken Supreme',
+                    price: 5.6,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 2,
+                    name: 'Pizza 2',
+                    price: 6.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 3,
+                    name: 'Pizza 3',
+                    price: 7.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 4,
+                    name: 'Pizza 4',
+                    price: 8.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 5,
+                    name: 'Pizza 5',
+                    price: 9.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                ]}
+                categoryId={1}
+              />
+              <ProductsGroupList
+                title="Combo"
+                items={[
+                  {
+                    id: 1,
+                    name: 'Chicken Supreme',
+                    price: 5.6,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 2,
+                    name: 'Pizza 2',
+                    price: 6.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 3,
+                    name: 'Pizza 3',
+                    price: 7.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 4,
+                    name: 'Pizza 4',
+                    price: 8.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 5,
+                    name: 'Pizza 5',
+                    price: 9.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                ]}
+                categoryId={2}
               />
             </div>
           </div>
