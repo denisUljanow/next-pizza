@@ -56,3 +56,10 @@ docker exec -it <container-name> psql -U root -c "CREATE DATABASE \"next-pizza\"
 3.  -- Automatische Erzeugung von Tabellen in postgres --
 
 npx prisma db push
+
+(to update prisma models):
+
+(1) delete all table entries in prisma studio
+(2) npx prisma generate
+(3) npx prisma db pull
+(4) npx prisma db push
