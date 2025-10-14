@@ -35,8 +35,24 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-
 to install:
 
 npm install lucide-react
 npm install tailwindcss-animate
+
+setup for prisma-postgres:
+
+1.  -- prisma --
+
+npm install prisma --save-dev
+npm install @prisma/client
+npx prisma init
+
+2.  -- docker --
+
+psql -U root -c "CREATE DATABASE \"next-pizza\";"
+docker exec -it <container-name> psql -U root -c "CREATE DATABASE \"next-pizza\";"
+
+3.  -- Automatische Erzeugung von Tabellen in postgres --
+
+npx prisma db push

@@ -114,6 +114,88 @@ export default function Home() {
                 ]}
                 categoryId={2}
               />
+              <ProductsGroupList
+                title="Vorspeise"
+                items={[
+                  {
+                    id: 1,
+                    name: 'Chicken Supreme',
+                    price: 5.6,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 2,
+                    name: 'Pizza 2',
+                    price: 6.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 3,
+                    name: 'Pizza 3',
+                    price: 7.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 4,
+                    name: 'Pizza 4',
+                    price: 8.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 5,
+                    name: 'Pizza 5',
+                    price: 9.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                ]}
+                categoryId={3}
+              />
+              <ProductsGroupList
+                title="Cocktails"
+                items={[
+                  {
+                    id: 1,
+                    name: 'Chicken Supreme',
+                    price: 5.6,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 2,
+                    name: 'Pizza 2',
+                    price: 6.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 3,
+                    name: 'Pizza 3',
+                    price: 7.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 4,
+                    name: 'Pizza 4',
+                    price: 8.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                  {
+                    id: 5,
+                    name: 'Pizza 5',
+                    price: 9.9,
+                    imageUrl:
+                      'https://media.dodostatic.com/image/r:233x233/11ee86927844f9a1abaa10c6cf62f3ef.avif',
+                  },
+                ]}
+                categoryId={4}
+              />
             </div>
           </div>
         </div>

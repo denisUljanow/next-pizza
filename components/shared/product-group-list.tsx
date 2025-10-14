@@ -1,6 +1,10 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import { Title } from './title';
 import { ProductCard } from './product-card';
+import { useRef, useState } from 'react';
+import { useCategoryStore } from '@/app/store/category';
 
 interface Props {
   title: string;
@@ -17,8 +21,32 @@ export const ProductsGroupList: React.FC<Props> = ({
   listClassName,
   className,
 }) => {
+  const intersectionRef = useRef(null);
+  const useSetActiveId = useCategoryStore((state) => state.setActiveId);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            useSetActiveId(categoryId);
+          }
+        });
+      },
+      { threshold: 0.4 },
+    );
+    if (intersectionRef.current) {
+      observer.observe(intersectionRef.current);
+    }
+    return () => {
+      if (intersectionRef.current) {
+        observer.unobserve(intersectionRef.current);
+      }
+    };
+  }, [title, categoryId]);
+
   return (
-    <div className={className}>
+    <div ref={intersectionRef} className={className} id={title}>
       <Title text={title} size="lg" className="font-extrabold mb-5" />
       <div className="grid grid-cols-3 gap-[50px]">
         {items.map((pizza, i) => (
