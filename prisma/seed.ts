@@ -41,17 +41,17 @@ async function up() {
     data: [
       {
         name: 'Pepperoni fresh',
-        imageUrl: 'assets/img/pizza1.webp',
+        imageUrl: 'img/pizza1.webp',
         active: true,
       },
       {
         name: 'Cheese',
-        imageUrl: 'assets/img/pizza2.webp',
+        imageUrl: 'img/pizza2.webp',
         active: true,
       },
       {
         name: 'Chorizo fresh',
-        imageUrl: 'assets/img/pizza3.webp',
+        imageUrl: 'img/pizza3.webp',
         active: true,
       },
     ],

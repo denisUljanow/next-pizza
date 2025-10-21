@@ -2,7 +2,7 @@
 import React from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useClickAway } from 'react-use';
+import { useClickAway, useDebounce } from 'react-use';
 import Link from 'next/link';
 import { Api } from '@/services/api-client';
 
@@ -11,6 +11,15 @@ interface Props {
 }
 
 export const SearchInput: React.FC<Props> = ({ className }) => {
+  interface Product {
+    name: string;
+    id: number;
+    imageUrl: string;
+    active: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+  }
+  const [products, setProducts] = React.useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [focused, setFocused] = React.useState(false);
   const ref = React.useRef(null);
@@ -19,9 +28,15 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
     setFocused(false);
   });
 
-  React.useEffect(() => {
-    Api.products.search(searchQuery);
-  }, [searchQuery]);
+  useDebounce(
+    () => {
+      Api.products.search(searchQuery).then((items) => {
+        setProducts(items);
+      });
+    },
+    500,
+    [searchQuery],
+  );
 
   return (
     <>
@@ -44,12 +59,19 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
               'relative rounded-2xl bg-white w-full max-w-3xl shadow-lg justify-center py-6 px-9',
               className,
             )}>
-            <Link
-              className="flex items-center gap-4 w-full px-3 py-3 hover:bg-primary/10"
-              href="/product/1">
-              <img className="rounded-sm h-8 w-8" src="/img/pizza1.webp" alt="Pizza 1" />
-              <span>Pizza 1</span>
-            </Link>
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                className="flex items-center gap-4 w-full px-3 py-3 hover:bg-primary/10"
+                href={`/product/${product.id}`}>
+                <img
+                  className="rounded-sm h-8 w-8"
+                  src={`/${product.imageUrl}`}
+                  alt={product.name}
+                />
+                <span>{product.name}</span>
+              </Link>
+            ))}
           </div>
         )}
       </div>
