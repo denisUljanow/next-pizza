@@ -3,6 +3,7 @@
 import React from 'react';
 import { FilterChecboxProps, FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui/input';
+import { Skeleton } from '../ui';
 
 type Item = FilterChecboxProps;
 
@@ -15,6 +16,7 @@ interface Props {
   onChange?: (values: string[]) => void;
   defaultValue?: string[];
   searchInputPlaceholder?: string;
+  loading?: boolean;
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -26,6 +28,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   className,
   onChange,
   defaultValue,
+  loading,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const [searchVal, setSearchVal] = React.useState('');
@@ -33,13 +36,23 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchVal(e.target.value);
   };
+
+  if (loading) {
+    return <div className="flex items-center space-x-4">
+            <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]"/>
+              </div>
+            </div>
+  };
+
   const list = showAll
     ? items.filter((item) => item.text.toLowerCase().includes(searchVal.toLowerCase()))
     : defaultItems.slice(0, limit);
   return (
     <div className={className}>
       <p className="font-bold mb-3">{title}</p>
-      {showAll && (
+      {showAll && !loading && (
         <div className="mb-5">
           <Input
             placeholder={searchInputPlaceholder}

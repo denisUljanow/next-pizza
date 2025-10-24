@@ -19,7 +19,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
   };
   //const [ingredientItems, setIngredientItems] = React.useState<>([]);
   
-  const {items} = useFilterIngredients();
+  const {items, loading} = useFilterIngredients();
   const ingredientOptions: Item[] = items.map((ingredient) => ({
     text: ingredient.name,
     value: ingredient.id.toString(),
@@ -48,6 +48,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
         limit={6}
         defaultItems={ingredientOptions.slice(0, 6)}
         items={ingredientOptions}
+        loading={loading}
       />
     </div>
   );
