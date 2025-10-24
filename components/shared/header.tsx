@@ -1,11 +1,11 @@
-import { cn } from '@/lib/utils';
 import React from 'react';
-import { Container } from './container';
 import Image from 'next/image';
-import { Button } from '../ui/index';
-import { ArrowRight, Search, ShoppingCart } from 'lucide-react';
-import { User } from 'lucide-react';
+
+import { Container } from './container';
+import { Button } from '../ui/button';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
 import { SearchInput } from './search-input';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 interface Props {
@@ -14,8 +14,8 @@ interface Props {
 
 export const Header: React.FC<Props> = ({ className }) => {
   return (
-    <header className={cn('border border-b', className)}>
-      <Container className="flex gap-6 items-center justify-between py-8">
+    <header className={cn('border-b border-gray-100', className)}>
+      <Container className="flex items-center justify-between py-8">
         <Link href="/">
           <div className="flex items-center gap-4">
             <Image src="/logo.png" width={35} height={35} alt="Logo" />
@@ -26,13 +26,12 @@ export const Header: React.FC<Props> = ({ className }) => {
           </div>
         </Link>
 
-        <SearchInput className="max-w-lg flex-1" />
+        <div className="mx-10 flex-1">
+          <SearchInput />
+        </div>
 
         <div className="flex items-center gap-3">
-          <Button variant="outline">
-            <User size={16} />
-            Login
-          </Button>
+          <Button variant="outline">Login</Button>
 
           <Button className="group relative">
             <b>520 ₽</b>

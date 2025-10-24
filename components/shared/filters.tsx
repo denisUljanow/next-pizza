@@ -1,15 +1,30 @@
+'use client';
+
 import React from 'react';
 import { Title } from './title';
 import { FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui/input';
 import { RangeSlider } from '../ui/slider';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
+import { useFilterIngredients } from '@/hooks/useFilterIngredients';
 
 interface Props {
   className?: string;
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
+  type Item = {
+    text: string;
+    value: string;
+  };
+  //const [ingredientItems, setIngredientItems] = React.useState<>([]);
+  
+  const {items} = useFilterIngredients();
+  const ingredientOptions: Item[] = items.map((ingredient) => ({
+    text: ingredient.name,
+    value: ingredient.id.toString(),
+  }));
+
   return (
     <div className={className}>
       <Title text="Filter" size="sm" className="mb-5 font-bold" />
@@ -31,82 +46,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
         className="mt-5"
         title="Zutaten"
         limit={6}
-        defaultItems={[
-          {
-            text: 'Käse sauce',
-            value: '1',
-          },
-          {
-            text: 'Mozarella',
-            value: '2',
-          },
-          {
-            text: 'Knoblauch',
-            value: '3',
-          },
-          {
-            text: 'Salzgurke',
-            value: '4',
-          },
-          {
-            text: 'Rote Zwiebel',
-            value: '5',
-          },
-          {
-            text: 'Tomaten',
-            value: '6',
-          },
-        ]}
-        items={[
-          {
-            text: 'Käse sauce',
-            value: '1',
-          },
-          {
-            text: 'Mozarella',
-            value: '2',
-          },
-          {
-            text: 'Knoblauch',
-            value: '3',
-          },
-          {
-            text: 'Salzgurke',
-            value: '4',
-          },
-          {
-            text: 'Rote Zwiebel',
-            value: '5',
-          },
-          {
-            text: 'Tomaten',
-            value: '6',
-          },
-          {
-            text: 'Käse sauce',
-            value: '1',
-          },
-          {
-            text: 'Mozarella',
-            value: '2',
-          },
-          {
-            text: 'Knoblauch',
-            value: '3',
-          },
-          {
-            text: 'Salzgurke',
-            value: '4',
-          },
-          {
-            text: 'Rote Zwiebel',
-            value: '5',
-          },
-          {
-            text: 'Tomaten',
-            value: '6',
-          },
-        ]}
+        defaultItems={ingredientOptions.slice(0, 6)}
+        items={ingredientOptions}
       />
     </div>
   );
