@@ -12,6 +12,11 @@ interface Props {
   className?: string;
 }
 
+interface priceProps {
+  fromPrice: number;
+  toPrice: number;
+}
+
 export const Filters: React.FC<Props> = ({ className }) => {
   type Item = {
     text: string;
@@ -24,6 +29,17 @@ export const Filters: React.FC<Props> = ({ className }) => {
     text: ingredient.name,
     value: ingredient.id.toString(),
   }));
+  const [prices, setPrices] = React.useState<priceProps>({
+    fromPrice: 0,
+    toPrice: 20,
+  });
+
+  const updatePrice = (key: keyof priceProps, value: number) => {
+    setPrices((prices) => ({
+      ...prices,
+      [key]: value,
+    }));
+  };
 
   return (
     <div className={className}>
@@ -36,10 +52,26 @@ export const Filters: React.FC<Props> = ({ className }) => {
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
         <p className="font-bold mb-3">Preis von - bis:</p>
         <div className="flex gap-3 mb-5">
-          <Input type="number" placeholder="0" min={0} max={1000} defaultValue={0} />
-          <Input type="number" min={100} max={1000} placeholder="1000" />
+          <Input
+            type="number"
+            placeholder="0"
+            min={0}
+            max={20}
+            value={prices.fromPrice}
+            onChange={(event) => updatePrice('fromPrice', Number(event.target.value))}
+          />
+          <Input
+            type="number"
+            placeholder="20"
+            min={1}
+            max={20}
+            value={prices.toPrice}
+            onChange={(event) => updatePrice('toPrice', Number(event.target.value))}
+          />
         </div>
-        <RangeSlider min={0} max={5000} step={10} value={[0, 5000]} />
+        <RangeSlider min={0} max={20} step={1} value={[
+          prices.fromPrice, prices.toPrice
+        ]} onValueChange={([fromPrice, toPrice]) => setPrices({fromPrice, toPrice})} />
       </div>
 
       <CheckboxFiltersGroup
