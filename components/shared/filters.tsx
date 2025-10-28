@@ -29,8 +29,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
     <div className={className}>
       <Title text="Filter" size="sm" className="mb-5 font-bold" />
       <div className="flex flex-col gap-4">
-        <FilterCheckbox text="Zusammenstellen möglich" value="1" />
-        <FilterCheckbox text="Neu" value="2" />
+        <FilterCheckbox name="Filter" text="Zusammenstellen möglich" value="1" />
+        <FilterCheckbox name="Filter" text="Neu" value="2" />
       </div>
 
       <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
