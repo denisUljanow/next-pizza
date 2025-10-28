@@ -19,7 +19,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
   };
   //const [ingredientItems, setIngredientItems] = React.useState<>([]);
   
-  const {items, loading} = useFilterIngredients();
+  const {items, loading, filterSet, onAddid} = useFilterIngredients();
   const ingredientOptions: Item[] = items.map((ingredient) => ({
     text: ingredient.name,
     value: ingredient.id.toString(),
@@ -49,6 +49,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
         defaultItems={ingredientOptions.slice(0, 6)}
         items={ingredientOptions}
         loading={loading}
+        filterSet ={filterSet}
+        onCheckboxChange={onAddid}
       />
     </div>
   );

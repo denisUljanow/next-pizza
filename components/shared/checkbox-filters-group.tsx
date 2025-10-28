@@ -17,6 +17,8 @@ interface Props {
   defaultValue?: string[];
   searchInputPlaceholder?: string;
   loading?: boolean;
+  filterSet?: Set<string>;
+  onCheckboxChange?: (value: string) => void;
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -29,6 +31,8 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   onChange,
   defaultValue,
   loading,
+  filterSet,
+  onCheckboxChange,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const [searchVal, setSearchVal] = React.useState('');
@@ -70,12 +74,29 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
         {list.map((item, index) => (
           <FilterCheckbox
-            onCheckedChange={(ids) => console.log(ids)}
-            checked={false}
+            onCheckedChange={(checked) => {
+              onCheckboxChange?.(item.value);     // toggle überprüft filterSet
+
+              if (onChange) {                     // für den Fall, dass onCheckboxChange nicht genutzt wird
+                const baseValues = filterSet
+                  ? new Set(filterSet)
+                  : new Set(defaultValue ?? []);
+
+                if (checked) {
+                  baseValues.add(item.value);
+                } else {
+                  baseValues.delete(item.value);
+                }
+
+                onChange(Array.from(baseValues));
+              }
+            }}
+            checked={filterSet?.has(item.value) ?? defaultValue?.includes(item.value) ?? false}
             key={index}
             value={item.value}
             text={item.text}
             endAdornment={item.endAdornment}
+            name={title}
           />
         ))}
       </div>
