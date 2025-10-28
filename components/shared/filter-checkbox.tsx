@@ -1,4 +1,5 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React from 'react';
+import type { CheckedState } from '@radix-ui/react-checkbox';
 import { Checkbox } from '../ui/checkbox';
 
 export interface FilterChecboxProps {
@@ -16,10 +17,17 @@ export const FilterCheckbox: React.FC<FilterChecboxProps> = ({
   onCheckedChange,
   checked,
 }) => {
+  const handleCheckedChange = React.useCallback(
+    (value: CheckedState) => {
+      onCheckedChange?.(value === true);
+    },
+    [onCheckedChange],
+  );
+
   return (
     <div className="flex items-center space-x-2">
       <Checkbox
-        onCheckedChange={onCheckedChange}
+        onCheckedChange={handleCheckedChange}
         checked={checked}
         value={value}
         className="rounded-[8px] w-6 h-6"

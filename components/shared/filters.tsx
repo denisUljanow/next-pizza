@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Title } from './title';
+import { useSet } from 'react-use';
+
+import { CheckboxFiltersGroup } from './checkbox-filters-group';
 import { FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui/input';
 import { RangeSlider } from '../ui/slider';
-import { CheckboxFiltersGroup } from './checkbox-filters-group';
+import { Title } from './title';
 import { useFilterIngredients } from '@/hooks/useFilterIngredients';
 
 interface Props {
@@ -13,17 +15,37 @@ interface Props {
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
-  type Item = {
-    text: string;
-    value: string;
-  };
-  //const [ingredientItems, setIngredientItems] = React.useState<>([]);
-  
-  const {items, loading} = useFilterIngredients();
-  const ingredientOptions: Item[] = items.map((ingredient) => ({
-    text: ingredient.name,
-    value: ingredient.id.toString(),
-  }));
+  const { items, loading } = useFilterIngredients();
+  const [selectedIngredients, { add, remove }] = useSet<string>(new Set<string>());
+
+  const ingredientOptions = React.useMemo(
+    () =>
+      items.map((ingredient) => ({
+        text: ingredient.name,
+        value: ingredient.id.toString(),
+      })),
+    [items],
+  );
+
+  const handleIngredientToggle = React.useCallback(
+    (value: string, checked: boolean) => {
+      if (checked) {
+        add(value);
+      } else {
+        remove(value);
+      }
+      const nextSelected = new Set(selectedIngredients);
+      if (checked) {
+        nextSelected.add(value);
+      } else {
+        nextSelected.delete(value);
+      }
+
+      const selectedItems = ingredientOptions.filter((option) => nextSelected.has(option.value));
+      console.log('Selected ingredients:', selectedItems);
+    },
+    [add, remove, ingredientOptions, selectedIngredients],
+  );
 
   return (
     <div className={className}>
@@ -49,6 +71,8 @@ export const Filters: React.FC<Props> = ({ className }) => {
         defaultItems={ingredientOptions.slice(0, 6)}
         items={ingredientOptions}
         loading={loading}
+        selectedValues={selectedIngredients}
+        onItemToggle={handleIngredientToggle}    // fügt ein oder entfernt Zutaten aus dem Set selectedIngredients
       />
     </div>
   );

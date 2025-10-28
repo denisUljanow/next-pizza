@@ -17,6 +17,8 @@ interface Props {
   defaultValue?: string[];
   searchInputPlaceholder?: string;
   loading?: boolean;
+  selectedValues?: Set<string>;
+  onItemToggle?: (value: string, checked: boolean) => void;
 }
 
 export const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -29,6 +31,8 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
   onChange,
   defaultValue,
   loading,
+  selectedValues,
+  onItemToggle,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const [searchVal, setSearchVal] = React.useState('');
@@ -70,8 +74,29 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
       <div className="flex flex-col gap-4 max-h-96 pr-2 overflow-auto scrollbar">
         {list.map((item, index) => (
           <FilterCheckbox
-            onCheckedChange={(ids) => console.log(ids)}
-            checked={false}
+            onCheckedChange={(checked) => {
+              onItemToggle?.(item.value, checked);
+
+              if (onChange) {
+                const baseValues = selectedValues
+                  ? Array.from(selectedValues)
+                  : defaultValue ?? [];
+                const nextValues = new Set(baseValues);
+
+                if (checked) {
+                  nextValues.add(item.value);
+                } else {
+                  nextValues.delete(item.value);
+                }
+
+                onChange(Array.from(nextValues));
+              }
+            }}
+            checked={
+              selectedValues
+                ? selectedValues.has(item.value)
+                : defaultValue?.includes(item.value) ?? false
+            }
             key={index}
             value={item.value}
             text={item.text}
