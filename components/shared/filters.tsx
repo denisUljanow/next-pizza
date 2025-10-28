@@ -57,7 +57,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="0"
             min={0}
             max={20}
-            value={prices.fromPrice}
+            value={prices.fromPrice<prices.toPrice? prices.fromPrice : prices.toPrice-1}
             onChange={(event) => updatePrice('fromPrice', Number(event.target.value))}
           />
           <Input
@@ -65,7 +65,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="20"
             min={1}
             max={20}
-            value={prices.toPrice}
+            value={prices.toPrice>prices.fromPrice? prices.toPrice : prices.fromPrice+1}
             onChange={(event) => updatePrice('toPrice', Number(event.target.value))}
           />
         </div>
