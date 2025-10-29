@@ -1,7 +1,8 @@
 Technologies used in this project:
 
-https://www.npmjs.com/package/qs  -> A querystring parsing and stringifying library with some added security. (um url's zu erstellen und zu parsen)
+https://www.npmjs.com/package/qs  -> A querystring parsing and stringifying library with some added security. (um uri's zu erstellen und zu parsen)
 
+useRouter von next/navigation -> um urls mit parameter zu erstellen
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
