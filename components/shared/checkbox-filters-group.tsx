@@ -11,7 +11,7 @@ interface Props {
   className?: string;
   title: string;
   items: Item[];
-  defaultItems: Item[];
+  defaultItems?: Item[];
   limit?: number;
   onChange?: (values: string[]) => void;
   defaultValue?: string[];
@@ -58,7 +58,7 @@ export const CheckboxFiltersGroup: React.FC<Props> = ({
 
   const list = showAll
     ? items.filter((item) => item.text.toLowerCase().includes(searchVal.toLowerCase()))
-    : defaultItems.slice(0, limit);
+    : (defaultItems || items).slice(0, limit);
   return (
     <div className={className}>
       <p className="font-bold mb-3">{title}</p>
