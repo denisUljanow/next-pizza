@@ -4,21 +4,23 @@ import { Ingredient } from '@prisma/client';
 import { useSet } from 'react-use';
 
 interface ReturnProps {
-  items: Ingredient[];
+  ingredientOptions: IngredientItem[];
   loading?: boolean;
-  filterSet: Set<string>;
-  onAddid: (value: string) => void;
 }
 
-export const useFilterIngredients = (values: string[] = []): ReturnProps => {
+type IngredientItem = {
+    text: string;
+    value: string;
+  };
+  //const [ingredientItems, setIngredientItems] = React.useState<>([]);
+
+export const useIngredients = (values: string[] = []): ReturnProps => {
   const [items, setItems] = React.useState<Ingredient[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [filterSet, {toggle, add}] = useSet(new Set<string>(values));
-  const setSelectedIngredients = (ids: string[]) => {
-    ids.forEach((id) => {
-      filterSet.add(id);
-    });
-};
+  const ingredientOptions: IngredientItem[] = items.map((ingredient) => ({
+    text: ingredient.name,
+    value: ingredient.id.toString(),
+  }));
 
   React.useEffect(() => {  
     async function fetchIngredients() {
@@ -35,5 +37,5 @@ export const useFilterIngredients = (values: string[] = []): ReturnProps => {
     fetchIngredients();  
   }, []);
     
-  return { items, loading, filterSet, onAddid: toggle};
+  return { ingredientOptions, loading};
 };
