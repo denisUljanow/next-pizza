@@ -1,6 +1,6 @@
 Technologies used in this project:
 
-https://www.npmjs.com/package/qs  -> A querystring parsing and stringifying library with some added security. (um uri's zu erstellen und zu parsen)
+https://www.npmjs.com/package/@types/qs  -> A querystring parsing and stringifying library with some added security. (um uri's zu erstellen und zu parsen)
 
 useRouter von next/navigation -> um urls mit parameter zu erstellen
 

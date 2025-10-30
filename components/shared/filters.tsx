@@ -1,5 +1,5 @@
 'use client';
-
+//////////
 import React, { useEffect } from 'react';
 import { Title } from './title';
 import { FilterCheckbox } from './filter-checkbox';
@@ -7,15 +7,23 @@ import { Input } from '../ui/input';
 import { RangeSlider } from '../ui/slider';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
 import { useFilterIngredients } from '@/hooks/useFilterIngredients';
-import { useSet } from 'react-use';
+import { useSearchParam, useSet } from 'react-use';
+import qs from 'qs';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   className?: string;
 }
 
-interface priceProps {
-  fromPrice: number;
-  toPrice: number;
+interface PriceProps {
+  fromPrice?: number;
+  toPrice?: number;
+}
+
+interface QueryFilters extends PriceProps {
+  ingredients?: string[];
+  sizes?: string[];
+  types?: string[];
 }
 
 export const Filters: React.FC<Props> = ({ className }) => {
@@ -24,28 +32,43 @@ export const Filters: React.FC<Props> = ({ className }) => {
     value: string;
   };
   //const [ingredientItems, setIngredientItems] = React.useState<>([]);
-  
-  const {items, loading, filterSet, onAddid} = useFilterIngredients();
+  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
+  const {items, loading, filterSet, onAddid} = useFilterIngredients(searchParams.get('ingredients')?.split(','));
   const ingredientOptions: Item[] = items.map((ingredient) => ({
     text: ingredient.name,
     value: ingredient.id.toString(),
   }));
-  const [prices, setPrices] = React.useState<priceProps>({
-    fromPrice: 0,
-    toPrice: 20,
+  
+  const [prices, setPrices] = React.useState<PriceProps>({
+    fromPrice: Number(searchParams.get('fromPrice')) || undefined,
+    toPrice: Number(searchParams.get('toPrice')) || undefined,
   });
-  const [sizesSet, {toggle: toggleSizes}] = useSet(new Set<string>([]));
-  const [typeSet, {toggle: toggleTypes}] = useSet(new Set<string>([]));
 
-  const updatePrice = (key: keyof priceProps, value: number) => {
+  //const [sizesSet, {toggle: toggleSizes}] = useSet(new Set<string>([]));
+  const [sizesSet, {toggle: toggleSizes}] = useSet(new Set<string>(searchParams.get('sizes')?.split(',') || []));
+  const [typeSet, {toggle: toggleTypes}] = useSet(new Set<string>(searchParams.get('types')?.split(',') || []));
+
+  const updatePrice = (key: keyof PriceProps, value: number) => {
     setPrices((prices) => ({
       ...prices,
       [key]: value,
     }));
   };
 
+  const router = useRouter();
+
   useEffect(() => {
-      console.log({filterSet, sizesSet, typeSet, prices});
+      const query = ({
+        ...prices,
+        ingredients: Array.from(filterSet),
+        sizes: Array.from(sizesSet),
+        types: Array.from(typeSet),
+      });
+
+      const queryString = qs.stringify(query, { arrayFormat: 'comma', encode: false });
+      router.push(`/?${queryString}`, {scroll: false}
+      );
+      //console.log({filterSet, sizesSet, typeSet, prices});
     },[filterSet, sizesSet, typeSet, prices]
   );
 
@@ -87,7 +110,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="0"
             min={0}
             max={20}
-            value={prices.fromPrice<prices.toPrice? prices.fromPrice : prices.toPrice-1}
+            value={prices.fromPrice || 0}
             onChange={(event) => updatePrice('fromPrice', Number(event.target.value))}
           />
           <Input
@@ -95,12 +118,12 @@ export const Filters: React.FC<Props> = ({ className }) => {
             placeholder="20"
             min={1}
             max={20}
-            value={prices.toPrice>prices.fromPrice? prices.toPrice : prices.fromPrice+1}
+            value={prices.toPrice || 20}
             onChange={(event) => updatePrice('toPrice', Number(event.target.value))}
           />
         </div>
         <RangeSlider min={0} max={20} step={1} value={[
-          prices.fromPrice, prices.toPrice
+          prices.fromPrice || 0 , prices.toPrice || 20
         ]} onValueChange={([fromPrice, toPrice]) => setPrices({fromPrice, toPrice})} />
       </div>
 
