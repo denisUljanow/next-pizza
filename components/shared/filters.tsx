@@ -2,15 +2,10 @@
 //////////
 import React, { useEffect } from 'react';
 import { Title } from './title';
-import { FilterCheckbox } from './filter-checkbox';
 import { Input } from '../ui/input';
 import { RangeSlider } from '../ui/slider';
 import { CheckboxFiltersGroup } from './checkbox-filters-group';
-import { useIngredients } from '@/hooks/use-ingredients';
-import { useSearchParam, useSet } from 'react-use';
-import qs from 'qs';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useFilters } from '@/hooks/use-filters';
+import { useFilters, useQueryFilters, useIngredients } from '@/hooks';
 
 interface Props {
   className?: string;
@@ -23,22 +18,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
   const filters = useFilters();
   const { ingredientOptions, loading } = useIngredients();
 
-  const router = useRouter();
-
-  useEffect(() => {
-      const query = ({
-        ...filters.prices,
-        ingredients: Array.from(filters.ingredientSet),
-        sizes: Array.from(filters.sizesSet),
-        types: Array.from(filters.typeSet),
-      });
-
-      const queryString = qs.stringify(query, { arrayFormat: 'comma', encode: false });
-      router.push(`/?${queryString}`, {scroll: false}
-      );
-      //console.log({filterSet, sizesSet, typeSet, prices});
-    },[filters.ingredientSet, filters.sizesSet, filters.typeSet, filters.prices]
-  );
+  useQueryFilters(filters);
 
   return (
     <div className={className}>

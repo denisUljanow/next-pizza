@@ -38,3 +38,5 @@ export const useFilters = () => {
     return { ingredientSet, setIngredients: toggleIngredients, sizesSet, setSizes: toggleSizes, typeSet, 
         setTypes: toggleTypes, prices, setPrices: updatePrice };
 }
+
+export type FiltersState = ReturnType<typeof useFilters>;
