@@ -5,7 +5,6 @@ export async function GET(req: NextRequest) {
   const query = req.nextUrl.searchParams.get('query') || '';
   const products = await prisma.product.findMany({
     where: {
-      active: true,
       name: {
         contains: query,
         mode: 'insensitive',

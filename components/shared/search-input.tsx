@@ -5,33 +5,27 @@ import { cn } from '@/lib/utils';
 import { useClickAway, useDebounce } from 'react-use';
 import Link from 'next/link';
 import { Api } from '@/services/api-client';
+import type { ProductSearchItem } from '@/services/products';
 
 interface Props {
   className?: string;
 }
 
 export const SearchInput: React.FC<Props> = ({ className }) => {
-  interface Product {
-    name: string;
-    id: number;
-    imageUrl: string;
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-  }
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const [products, setProducts] = React.useState<ProductSearchItem[]>([]);
   const [searchQuery, setSearchQuery] = React.useState('');
   const [focused, setFocused] = React.useState(false);
   const ref = React.useRef(null);
-  
-  const onClickDropdownItem = () => {
+  const closeDropdown = React.useCallback(() => {
     setFocused(false);
-    setSearchQuery('');
-  }
+  }, []);
 
-  useClickAway(ref, () => {
-    setFocused(false);
-  });
+  const onClickDropdownItem = () => {
+    closeDropdown();
+    setSearchQuery('');
+  };
+
+  useClickAway(ref, closeDropdown);
 
   useDebounce(
     async () => {
@@ -48,19 +42,21 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
 
   return (
     <>
-      {focused && <div className="fixed inset-0 bg-black/50 z-30" />}
+      {focused && <div className="fixed inset-0 bg-black/50 z-30" onClick={closeDropdown} />}
       <div
         ref={ref}
         className={cn(
           'w-full',
           focused && 'fixed inset-x-0 top-0 z-40 flex flex-col items-center pt-9 px-9',
-        )}>
+        )}
+        onClick={closeDropdown}>
         <div
           className={cn(
             'relative rounded-2xl bg-white w-full shadow-lg',
             focused && 'max-w-3xl',
             className,
-          )}>
+          )}
+          onClick={(event: React.MouseEvent<HTMLDivElement>) => event.stopPropagation()}>
           <Search className="absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400" />
           <input
             type="text"
@@ -76,7 +72,8 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
             className={cn(
               'relative mt-4 rounded-2xl bg-white w-full max-w-3xl shadow-lg justify-center py-6 px-9',
               className,
-            )}>
+            )}
+            onClick={(event: React.MouseEvent<HTMLDivElement>) => event.stopPropagation()}>
             {products.map((product) => (
               <Link
                 onClick={onClickDropdownItem}
