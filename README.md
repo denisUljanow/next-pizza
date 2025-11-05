@@ -46,6 +46,7 @@ to install:
 
 npm install lucide-react
 npm install tailwindcss-animate
+npm install -D @types/bcrypt --legacy-peer-deps
 
 setup for prisma-postgres:
 
