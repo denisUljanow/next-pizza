@@ -24,6 +24,7 @@ export default async function Home() {
       },
     },
   });
+  console.log("Categories: ", categories);
   
   return (
     <>
@@ -33,7 +34,7 @@ export default async function Home() {
 
       <div className="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
         <Container className="flex items-center justify-between">
-          <Categories />
+          <Categories categories={categories.filter((category) => category.products.length > 0)} />
           <SortPopup />
         </Container>
       </div>

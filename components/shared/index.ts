@@ -7,3 +7,5 @@ export { CheckboxFiltersGroup } from './checkbox-filters-group';
 export { ProductCard } from './product-card';
 export { ProductsGroupList } from './product-group-list';
 export { SearchInput } from './search-input';
+export { PizzaImage } from './pizza-image';
+export * from './modals';

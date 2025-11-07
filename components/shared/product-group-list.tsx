@@ -21,6 +21,9 @@ export const ProductsGroupList: React.FC<Props> = ({
   listClassName,
   className,
 }) => {
+  if (!items.length) {
+    return null;
+  }
   const intersectionRef = useRef(null);
   const useSetActiveId = useCategoryStore((state) => state.setActiveId);
 

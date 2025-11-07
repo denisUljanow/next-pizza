@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={nunito.variable}>
+      <head>
+        <link data-rh="true" rel="icon" href="/logo.png" />
+      </head>
+      <body className={nunito.className}>
         <main className="min-h-screen">
           <Header />
           {children}
