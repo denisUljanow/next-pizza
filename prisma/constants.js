@@ -27,178 +27,178 @@ const _ingredients = [
     name: 'Käserand',
     price: 179,
     imageUrl:
-      'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png',
+      '/img/ingredients/kaeserand.webp',
   },
   {
     name: 'Cremige Mozzarella',
     price: 79,
     imageUrl:
-      'https://cdn.dodostatic.net/static/Img/Ingredients/cdea869ef287426386ed634e6099a5ba.png',
+      '/img/ingredients/cremige-mozzarella.webp',
   },
   {
     name: 'Cheddar und Parmesan',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA69C1FE796',
+    imageUrl: '/img/ingredients/cheddar-und-parmesan.webp',
   },
   {
     name: 'Scharfer Jalapeño',
     price: 59,
     imageUrl:
-      'https://cdn.dodostatic.net/static/Img/Ingredients/11ee95b6bfdf98fb88a113db92d7b3df.png',
+      '/img/ingredients/scharfer-jalapeno.webp',
   },
   {
     name: 'Zartes Hähnchen',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A39D824A82E11E9AFA5B328D35A',
+    imageUrl: '/img/ingredients/zartes-haehnchen.webp',
   },
   {
     name: 'Champignons',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA67259A324',
+    imageUrl: '/img/ingredients/champignons.webp',
   },
   {
     name: 'Schinken',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A39D824A82E11E9AFA61B9A8D61',
+    imageUrl: '/img/ingredients/schinken.webp',
   },
   {
     name: 'Würzige Pepperoni',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA6258199C3',
+    imageUrl: '/img/ingredients/wuerzige-pepperoni.webp',
   },
   {
     name: 'Scharfe Chorizo',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA62D5D6027',
+    imageUrl: '/img/ingredients/scharfe-chorizo.webp',
   },
   {
     name: 'Eingelegte Gurken',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A21DA51A81211E9EA89958D782B',
+    imageUrl: '/img/ingredients/eingelegte-gurken.webp',
   },
   {
     name: 'Frische Tomaten',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A39D824A82E11E9AFA7AC1A1D67',
+    imageUrl: '/img/ingredients/frische-tomaten.webp',
   },
   {
     name: 'Rote Zwiebeln',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA60AE6464C',
+    imageUrl: '/img/ingredients/rote-zwiebeln.webp',
   },
   {
     name: 'Saftige Ananas',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A21DA51A81211E9AFA6795BA2A0',
+    imageUrl: '/img/ingredients/saftige-ananas.webp',
   },
   {
     name: 'Italienische Kräuter',
     price: 39,
     imageUrl:
-      'https://cdn.dodostatic.net/static/Img/Ingredients/370dac9ed21e4bffaf9bc2618d258734.png',
+      '/img/ingredients/italienische-kraeuter.webp',
   },
   {
     name: 'Süße Paprika',
     price: 59,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A22FA54A81411E9AFA63F774C1B',
+    imageUrl: '/img/ingredients/suesse-paprika.webp',
   },
   {
     name: 'Fetakäsewürfel',
     price: 79,
-    imageUrl: 'https://cdn.dodostatic.net/static/Img/Ingredients/000D3A39D824A82E11E9AFA6B0FFC349',
+    imageUrl: '/img/ingredients/fetakaesewuerfel.webp',
   },
   {
     name: 'Fleischbällchen',
     price: 79,
     imageUrl:
-      'https://cdn.dodostatic.net/static/Img/Ingredients/b2f3a5d5afe44516a93cfc0d2ee60088.png',
+      '/img/ingredients/fleischbaellchen.webp',
   },
 ].map((obj, index) => ({ id: index + 1, ...obj }));
 
 const products = [
   {
     name: 'Omelett mit Schinken und Pilzen',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7970321044479C1D1085457A36EB.webp',
+    imageUrl: '/img/products/omelett-mit-schinken-und-pilzen.webp',
     categoryId: 2,
   },
   {
     name: 'Omelett mit Pepperoni',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE94ECF33B0C46BA410DEC1B1DD6F8.webp',
+    imageUrl: '/img/products/omelett-mit-pepperoni.webp',
     categoryId: 2,
   },
   {
     name: 'Kaffee Latte',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp',
+    imageUrl: '/img/products/kaffee-latte.webp',
     categoryId: 2,
   },
   {
     name: 'Denwich Schinken & Käse',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE796FF0059B799A17F57A9E64C725.webp',
+    imageUrl: '/img/products/denwich-schinken-kaese.webp',
     categoryId: 3,
   },
   {
     name: 'Chicken Nuggets',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D618B5C7EC29350069AE9532C6E.webp',
+    imageUrl: '/img/products/chicken-nuggets.webp',
     categoryId: 3,
   },
   {
     name: 'Ofenkartoffeln mit Sauce 🌱',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EED646A9CD324C962C6BEA78124F19.webp',
+    imageUrl: '/img/products/ofenkartoffeln-mit-sauce.webp',
     categoryId: 3,
   },
   {
     name: 'Dodster',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE796F96D11392A2F6DD73599921B9.webp',
+    imageUrl: '/img/products/dodster.webp',
     categoryId: 3,
   },
   {
     name: 'Scharfer Dodster 🌶️🌶️',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE796FD3B594068F7A752DF8161D04.webp',
+    imageUrl: '/img/products/scharfer-dodster.webp',
     categoryId: 3,
   },
   {
     name: 'Bananen-Milchshake',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EEE20B8772A72A9B60CFB20012C185.webp',
+    imageUrl: '/img/products/bananen-milchshake.webp',
     categoryId: 4,
   },
   {
     name: 'Karamell-Apfel-Milchshake',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE79702E2A22E693D96133906FB1B8.webp',
+    imageUrl: '/img/products/karamell-apfel-milchshake.webp',
     categoryId: 4,
   },
   {
     name: 'Milchshake mit Oreo-Keksen',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE796FA1F50F8F8111A399E4C1A1E3.webp',
+    imageUrl: '/img/products/milchshake-mit-oreo-keksen.webp',
     categoryId: 4,
   },
   {
     name: 'Klassischer Milchshake 👶',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE796F93FB126693F96CB1D3E403FB.webp',
+    imageUrl: '/img/products/klassischer-milchshake.webp',
     categoryId: 4,
   },
   {
     name: 'Irischer Cappuccino',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61999EBDA59C10E216430A6093.webp',
+    imageUrl: '/img/products/irischer-cappuccino.webp',
     categoryId: 5,
   },
   {
     name: 'Karamell-Cappuccino',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61AED6B6D4BFDAD4E58D76CF56.webp',
+    imageUrl: '/img/products/karamell-cappuccino.webp',
     categoryId: 5,
   },
   {
     name: 'Kokos-Latte',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61B19FA07090EE88B0ED347F42.webp',
+    imageUrl: '/img/products/kokos-latte.webp',
     categoryId: 5,
   },
   {
     name: 'Americano',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61B044583596548A59078BBD33.webp',
+    imageUrl: '/img/products/americano.webp',
     categoryId: 5,
   },
   {
     name: 'Kaffee Latte',
-    imageUrl: 'https://media.dodostatic.net/image/r:292x292/11EE7D61B0C26A3F85D97A78FEEE00AD.webp',
+    imageUrl: '/img/products/kaffee-latte.webp',
     categoryId: 5,
   },
 ];

@@ -5,9 +5,9 @@ import {
   ProductsGroupList,
   SortPopup,
   Title,
-} from '@/components/shared';
-import { Categories } from '@/components/shared/';
-import { Button } from '@/components/ui/button';
+} from '@/shared/components/shared';
+import { Categories } from '@/shared/components/shared';
+import { Button } from '@/shared/components/ui/button';
 import { prisma } from '@/libs/prisma';
 import Image from 'next/image';
 import { setDefaultHighWaterMark } from 'stream';

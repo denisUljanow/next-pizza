@@ -1,9 +1,9 @@
 import { prisma } from "@/libs/prisma";
-import { Container } from "@/components/shared/container";
-import { PizzaImage } from "@/components/shared/pizza-image";
+import { Container } from "@/shared/components/shared/container";
+import { PizzaImage } from "@/shared/components/shared/pizza-image";
 import { notFound } from "next/navigation";
-import { ChooseProductModal, Title } from "@/components/shared";
-import { GroupVariants } from "@/components/shared/group-variants";
+import { ChooseProductModal, Title } from "@/shared/components/shared";
+import { GroupVariants } from "@/shared/components/shared/group-variants";
 
 type ProductModalPageProps = {
   params: Promise<{ id: string }>;
