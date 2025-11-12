@@ -7,6 +7,7 @@ import { GroupVariants, Variant } from './group-variants';
 import { pizzaSizesMap, pizzaTypesMap } from '@/shared/constants/pizza';
 import { Ingredient } from '@prisma/client';
 import { IngredientItem } from './ingredient-item';
+import { useSet } from 'react-use';
 
 type PizzaSizeKey = keyof typeof pizzaSizesMap;
 type PizzaTypeKey = keyof typeof pizzaTypesMap;
@@ -25,6 +26,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, in
     const totalPrice = 350;
     const [size, setSize] = React.useState<PizzaSizeKey>(30);
     const [type, setType] = React.useState<PizzaTypeKey>(1);
+    const [selectedIngredients, {toggle: addIngredient}] = useSet(new  Set<number>([]));
 
     const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => ({
         name: text,
@@ -68,6 +70,8 @@ export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, in
                         imageUrl={ingredient.imageUrl}
                         name={ingredient.name}
                         price={ingredient.price}
+                        onClick={() => addIngredient(ingredient.id)}
+                        active={selectedIngredients.has(ingredient.id)}
                     />
                     ))}
                 </div>
