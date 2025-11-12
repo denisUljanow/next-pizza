@@ -5,7 +5,7 @@ import { Button } from '../ui';
 import { PizzaImage } from './pizza-image';
 import { GroupVariants, Variant } from './group-variants';
 import { pizzaSizesMap, pizzaTypesMap } from '@/shared/constants/pizza';
-import { Ingredient } from '@prisma/client';
+import { Ingredient, ProductItem } from '@prisma/client';
 import { IngredientItem } from './ingredient-item';
 import { useSet } from 'react-use';
 
@@ -17,25 +17,55 @@ interface Props {
     name: string;
     imageUrl: string;
     ingredients?: Ingredient[];
-    items?: any[];
+    items: ProductItem[];
     onClickAdd?: VoidFunction;
 }
 
 export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, ingredients, items, onClickAdd, }) => {
-    const textDetails = '30 cm, dünne Teig 30';
-    const totalPrice = 350;
+
+    
     const [size, setSize] = React.useState<PizzaSizeKey>(30);
     const [type, setType] = React.useState<PizzaTypeKey>(1);
+    const textDetails = `${size} cm, ${pizzaTypesMap[type]}`;
     const [selectedIngredients, {toggle: addIngredient}] = useSet(new  Set<number>([]));
+    
+    const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => {
+        const numericValue = Number(value);
+        const combinationExists = items?.some(
+            (item) => item.pizzaType === type && item.size === numericValue,
+        );
 
-    const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => ({
-        name: text,
-        value,
-    })) as Variant[];
+        return {
+            name: text,
+            value,
+            disabled: !combinationExists,
+        };
+    }) as Variant[];
+    
     const typeVariants = Object.entries(pizzaTypesMap).map(([value, text]) => ({
         name: text,
         value,
     })) as Variant[];
+
+    const itemPrice = items?.find((item) => item.size === size && item.pizzaType === type)?.price || 0;
+    const ingredientsPrice = ingredients?.reduce((acc, ingredient) => {
+        if (selectedIngredients.has(ingredient.id)) {
+            return acc + ingredient.price;
+        }
+        return acc;
+    }, 0) || 0;
+
+    const totalPrice = itemPrice + ingredientsPrice;
+
+    const availablePizzas = items.filter((item) => item.pizzaType == type);
+    /* const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => ({
+        name: text,
+        value,
+        disabled: !items.map((item) => {}) includes(Number(value)),
+    })) as Variant[]; */
+
+    console.log('availablePizzas: ', availablePizzas);
+    console.log("items: ", items);
 
     console.log("Ingredients: ", ingredients);
     // console.log('sizeState: ', size);

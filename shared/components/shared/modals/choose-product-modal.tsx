@@ -19,7 +19,7 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
     
     return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
-        <DialogContent className={cn('p-0 max-w-none sm:max-w-none w-[1200px] max-w-[1500px] min-h-[560px] bg-white overflow-hidden', className)}>
+        <DialogContent className={cn('p-0 max-w-none sm:max-w-none w-[1200px] max-w-[1200px] min-h-[560px] bg-white overflow-hidden', className)}>
             <DialogTitle className="sr-only">{product.name}</DialogTitle>
             {isPizzaType ? (
                 <ChoosePizzaForm 

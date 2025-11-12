@@ -25,91 +25,91 @@ const categories = [
 const _ingredients = [
   {
     name: 'Käserand',
-    price: 179,
+    price: 1.20,
     imageUrl:
       '/img/ingredients/kaeserand.webp',
   },
   {
     name: 'Cremige Mozzarella',
-    price: 79,
+    price: 0.79,
     imageUrl:
       '/img/ingredients/cremige-mozzarella.webp',
   },
   {
     name: 'Cheddar und Parmesan',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/cheddar-und-parmesan.webp',
   },
   {
     name: 'Scharfer Jalapeño',
-    price: 59,
+    price: 0.59,
     imageUrl:
       '/img/ingredients/scharfer-jalapeno.webp',
   },
   {
     name: 'Zartes Hähnchen',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/zartes-haehnchen.webp',
   },
   {
     name: 'Champignons',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/champignons.webp',
   },
   {
     name: 'Schinken',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/schinken.webp',
   },
   {
     name: 'Würzige Pepperoni',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/wuerzige-pepperoni.webp',
   },
   {
     name: 'Scharfe Chorizo',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/scharfe-chorizo.webp',
   },
   {
     name: 'Eingelegte Gurken',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/eingelegte-gurken.webp',
   },
   {
     name: 'Frische Tomaten',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/frische-tomaten.webp',
   },
   {
     name: 'Rote Zwiebeln',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/rote-zwiebeln.webp',
   },
   {
     name: 'Saftige Ananas',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/saftige-ananas.webp',
   },
   {
     name: 'Italienische Kräuter',
-    price: 39,
+    price: 0.39,
     imageUrl:
       '/img/ingredients/italienische-kraeuter.webp',
   },
   {
     name: 'Süße Paprika',
-    price: 59,
+    price: 0.59,
     imageUrl: '/img/ingredients/suesse-paprika.webp',
   },
   {
     name: 'Fetakäsewürfel',
-    price: 79,
+    price: 0.79,
     imageUrl: '/img/ingredients/fetakaesewuerfel.webp',
   },
   {
     name: 'Fleischbällchen',
-    price: 79,
+    price: 0.79,
     imageUrl:
       '/img/ingredients/fleischbaellchen.webp',
   },

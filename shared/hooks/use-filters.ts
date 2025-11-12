@@ -15,8 +15,7 @@ interface QueryFilters extends PriceProps {
 
 export const useFilters = () => {
     
-    const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;    
-    
+    const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;     
     
     //const {items, loading, filterSet, onAddid} = useFilterIngredients(searchParams.get('ingredients')?.split(','));
       
