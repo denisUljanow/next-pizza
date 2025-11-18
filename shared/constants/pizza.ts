@@ -18,3 +18,6 @@ export const pizzaTypesArray = Object.entries(pizzaTypesMap).map(([value, text])
     value,
     text,
     }));
+
+export type PizzaSizeKey = keyof typeof pizzaSizesMap;
+export type PizzaTypeKey = keyof typeof pizzaTypesMap;

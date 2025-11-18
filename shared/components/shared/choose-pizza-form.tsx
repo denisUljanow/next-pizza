@@ -4,14 +4,11 @@ import { Title } from './title';
 import { Button } from '../ui';
 import { PizzaImage } from './pizza-image';
 import { GroupVariants, Variant } from './group-variants';
-import { pizzaSizesMap, pizzaTypesMap } from '@/shared/constants/pizza';
+import { PizzaSizeKey, pizzaSizesMap, PizzaTypeKey, pizzaTypesMap } from '@/shared/constants/pizza';
 import { Ingredient, ProductItem } from '@prisma/client';
 import { IngredientItem } from './ingredient-item';
 import { useSet } from 'react-use';
 import { totalPizzaPrice } from '@/libs/calc-total-pizza-price';
-
-type PizzaSizeKey = keyof typeof pizzaSizesMap;
-type PizzaTypeKey = keyof typeof pizzaTypesMap;
 
 interface Props {
     className?: string;
