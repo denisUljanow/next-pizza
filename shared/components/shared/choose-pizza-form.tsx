@@ -8,6 +8,7 @@ import { pizzaSizesMap, pizzaTypesMap } from '@/shared/constants/pizza';
 import { Ingredient, ProductItem } from '@prisma/client';
 import { IngredientItem } from './ingredient-item';
 import { useSet } from 'react-use';
+import { totalPizzaPrice } from '@/libs/calc-total-pizza-price';
 
 type PizzaSizeKey = keyof typeof pizzaSizesMap;
 type PizzaTypeKey = keyof typeof pizzaTypesMap;
@@ -42,20 +43,38 @@ export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, in
         };
     }) as Variant[];
     
+    React.useEffect(() => {             // Die erste verfügbare Pizza-Größe wird ausgewählt, wenn die aktuelle Kombination nicht existiert 
+        const currentCombinationExists = items?.some(
+            (item) => item.pizzaType === type && item.size === size,
+        );
+
+        if (currentCombinationExists) {
+            return;
+        }
+
+        const firstAvailableSize = Object.keys(pizzaSizesMap).find((value) =>
+            items?.some(
+                (item) => item.pizzaType === type && item.size === Number(value),
+            ),
+        );
+
+        if (firstAvailableSize) {
+            setSize(Number(firstAvailableSize) as PizzaSizeKey);
+        }
+    }, [items, size, type]);
+    
     const typeVariants = Object.entries(pizzaTypesMap).map(([value, text]) => ({
         name: text,
         value,
     })) as Variant[];
 
-    const itemPrice = items?.find((item) => item.size === size && item.pizzaType === type)?.price || 0;
-    const ingredientsPrice = ingredients?.reduce((acc, ingredient) => {
-        if (selectedIngredients.has(ingredient.id)) {
-            return acc + ingredient.price;
-        }
-        return acc;
-    }, 0) || 0;
-
-    const totalPrice = itemPrice + ingredientsPrice;
+    const totalPrice = totalPizzaPrice(
+        items,
+        size,
+        type,
+        ingredients,
+        selectedIngredients,
+    );
 
     const availablePizzas = items.filter((item) => item.pizzaType == type);
     /* const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => ({
