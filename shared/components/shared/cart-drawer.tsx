@@ -32,17 +32,19 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
               </SheetTitle>
             </SheetHeader>
         
-
-            <CartDrawerItem
-              id={1}
-              imageUrl='https://media.dodostatic.com/image/r:292x292/11ee9b96fd6947e9a993cadea7e4d04a.avif'
-              details={getCartItemDetails(2, 30,
-                [{ name: 'Käse' }, { name: 'Tomaten' }, { name: 'Salami' }]
-              )}
-              name="Pepperoni Pizza"
-              price={12}
-              quantity={1}
-            />
+            <div className="-mx-6 mt-5 overflow-auto flex-1">
+              <div className="mb-2" />
+              <CartDrawerItem
+                id={1}
+                imageUrl='https://media.dodostatic.com/image/r:292x292/11ee9b96fd6947e9a993cadea7e4d04a.avif'
+                details={getCartItemDetails(2, 30,
+                  [{ name: 'Käse' }, { name: 'Tomaten' }, { name: 'Salami' }]
+                )}
+                name="Pepperoni Pizza"
+                price={12}
+                quantity={1}
+              />
+            </div>
 
             <SheetFooter className="-mx-6 bg-white p-8">
                 <div className="w-full">
