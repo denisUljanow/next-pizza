@@ -1,30 +1,50 @@
 import {
+  Categories,
   Container,
   Filters,
-  ProductCard,
   ProductsGroupList,
   SortPopup,
   Title,
 } from '@/shared/components/shared';
-import { Categories } from '@/shared/components/shared';
-import { Button } from '@/shared/components/ui/button';
 import { prisma } from '@/libs/prisma';
-import Image from 'next/image';
-import { setDefaultHighWaterMark } from 'stream';
 
 export default async function Home() {
-  
   const categories = await prisma.category.findMany({
-    include: { 
+    include: {
       products: {
-        include: { 
+        include: {
           ingredients: true,
           items: true,
         },
       },
     },
   });
-  console.log("Categories: ", categories);
+
+  // Normalize Prisma Decimal fields so client components receive plain numbers
+  const categoriesWithPrice = categories.map((category) => ({
+    ...category,
+    products: category.products.map((product) => {
+      const items = product.items.map((item) => ({
+        ...item,
+        price: Number(item.price.toDecimalPlaces(2).toString()),
+      }));
+
+      const ingredients = product.ingredients.map((ingredient) => ({
+        ...ingredient,
+        price: Number(ingredient.price.toDecimalPlaces(2).toString()),
+      }));
+
+      const productPrice =
+        items.length > 0 ? Math.min(...items.map((item) => item.price)) : 0;
+
+      return {
+        ...product,
+        price: productPrice,
+        items,
+        ingredients,
+      };
+    }),
+  }));
   
   return (
     <>
@@ -34,7 +54,9 @@ export default async function Home() {
 
       <div className="sticky top-0 bg-white py-5 shadow-lg shadow-black/5">
         <Container className="flex items-center justify-between">
-          <Categories categories={categories.filter((category) => category.products.length > 0)} />
+          <Categories
+            categories={categoriesWithPrice.filter((category) => category.products.length > 0)}
+          />
           <SortPopup />
         </Container>
       </div>
@@ -46,16 +68,14 @@ export default async function Home() {
           </div>
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              {
-                categories.map((category) => (
-                  <ProductsGroupList
-                    key={category.id}
-                    title={category.name}
-                    items={category.products}
-                    categoryId={category.id}
-                  />
-                ))
-              }
+              {categoriesWithPrice.map((category) => (
+                <ProductsGroupList
+                  key={category.id}
+                  title={category.name}
+                  items={category.products}
+                  categoryId={category.id}
+                />
+              ))}
             </div>
           </div>
         </div>
