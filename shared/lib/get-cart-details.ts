@@ -31,12 +31,12 @@ export const getCartDetails = (data: CartDTO): ReturnProps => {
         pizzaType: item.productItem.pizzaType, 
         ingredients: item.ingredients.map((ingredient) => ({
             name: ingredient.name,
-            price: ingredient.price,
+            price: Number(ingredient.price),
         })),
     })) as CartStateItem[];
 
     return {
         items,
-        totalAmount: data.totalAmount,
+        totalAmount: Number(data.totalAmount),
     };
 };

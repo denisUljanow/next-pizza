@@ -21,16 +21,16 @@ export interface CartState {
   totalAmount: number;
   items: CartStateItem[];
 
-  /* Получение товаров из корзины */
+  /* Waren aus Warenkorb fetchen */
   fetchCartItems: () => Promise<void>;
 
-  /* Запрос на обновление количества товара */
+  /* Warenmenge in Warenkorb update */
   updateItemQuantity: (id: number, quantity: number) => Promise<void>;
 
-  /* Запрос на добавление товара в корзину */
+  /* Ware ins Warenkorb hinzufügen */
   addCartItem: (values: any) => Promise<void>;
 
-  /* Запрос на удаление товара из корзины */
+  /* Ware aus dem Warenkorb entfernen */
   removeCartItem: (id: number) => Promise<void>;
 }
 

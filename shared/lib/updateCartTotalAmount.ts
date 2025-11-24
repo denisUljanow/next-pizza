@@ -29,11 +29,11 @@ export const updateCartTotalAmount = async (token: string) => {
     }
    
     const totalAmountDecimal = userCart.items.reduce(
-        (acc, item) => acc.add(new Prisma.Decimal(calcCartItemTotalPrice(item))),
+        (acc, item) => acc.add(new Prisma.Decimal(calcCartItemTotalPrice(item))),   // Gesamtpreis eines Warenkorbelementes samt Zutaten berechnen
         new Prisma.Decimal(0),
     );
 
-    const totalAmount = Number(totalAmountDecimal.toDecimalPlaces(2).toString());                                 // Alle Warenkorbelemente durchlaufen samt ihren Zutaten und Gesamtpreis berechnen
+    const totalAmount = Number(totalAmountDecimal.toDecimalPlaces(2).toString());
 
   return await prisma.cart.update({     // Upgedatete Warenkorb mit neuer Gesamtsumme (totalAmount) zurückgeben
     where: {
