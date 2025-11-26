@@ -1,10 +1,11 @@
 import { prisma } from '@/libs/prisma';
+import { Param } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const cookieToken = req.cookies.get('cartToken')?.value;
-    const queryToken = req.nextUrl.searchParams.get('token') ?? undefined;
+    const cookieToken = req.cookies.get('cartToken')?.value;                  // Suche in Cookies nach "cartToken"
+    const queryToken = req.nextUrl.searchParams.get('token') ?? undefined;    // Suche in Url nach Query-Parameter "token"
     const token = cookieToken ?? queryToken;
 
     if (!token) {

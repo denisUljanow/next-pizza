@@ -43,11 +43,8 @@ export async function PATCH(
         if (!updatedUserCart) {
             return NextResponse.json({ error: 'Cart not found' }, { status: 404 });
         }
-        
-        return NextResponse.json({
-            cart: updatedUserCart,
-            totalAmount: updatedUserCart.totalAmount,
-        });
+
+        return NextResponse.json(updatedUserCart);
     } catch (error) {
         console.log('[CART_PATCH] Server Error', error);
         return NextResponse.json({ message: 'Failed to update cart item' }, { status: 500 });

@@ -27,9 +27,15 @@ className?: string;
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
   const totalAmount = useCartStore((state) => state.totalAmount);
   const items = useCartStore((state) => state.items);
+  const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
   console.log('CartDrawer items:', items);
   const fetchCartItems = useCartStore((state) => state.fetchCartItems);
   console.log('fetchCartItems:', fetchCartItems);
+  const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
+    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
+  
 
   React.useEffect(() => {
     fetchCartItems();
@@ -49,16 +55,20 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
               <div className="mb-2" />
               {items.map((item) => (
                 <CartDrawerItem
-                id={item.id}
-                imageUrl={item.imageUrl}
-                details={item.pizzaSize && item.pizzaType ? getCartItemDetails(
-                  item.pizzaType as PizzaTypeKey, 
-                  item.pizzaSize as PizzaSizeKey,
-                  item.ingredients,
-                ) : ''}
-                name={item.name}
-                price={item.price}
-                quantity={item.quantity}
+                  key={item.id}
+                  id={item.id}
+                  imageUrl={item.imageUrl}
+                  details={item.pizzaSize && item.pizzaType ? getCartItemDetails(
+                    item.pizzaType as PizzaTypeKey, 
+                    item.pizzaSize as PizzaSizeKey,
+                    item.ingredients,
+                  ) : ''}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantity}
+                  onClickCountButton={(type) => {
+                    onClickCountButton(item.id, item.quantity, type)
+                  }}
               />
               ))}
             </div>
