@@ -27,6 +27,7 @@ className?: string;
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
   const totalAmount = useCartStore((state) => state.totalAmount);
   const items = useCartStore((state) => state.items);
+  const removeCartItem = useCartStore((state) => state.removeCartItem);
   const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
   console.log('CartDrawer items:', items);
   const fetchCartItems = useCartStore((state) => state.fetchCartItems);
@@ -69,6 +70,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children,
                   onClickCountButton={(type) => {
                     onClickCountButton(item.id, item.quantity, type)
                   }}
+                  onClickRemove={() => removeCartItem(item.id)}
               />
               ))}
             </div>

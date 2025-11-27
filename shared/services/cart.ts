@@ -9,3 +9,7 @@ export const getCart = async (): Promise<CartDTO> => {
 export const updateItemQuantity = async (itemId: number, quantity: number): Promise<CartDTO> => {
   return (await axiosInstance.patch<CartDTO>(`/api/cart/${itemId}`, { quantity })).data;
 };
+
+export const removeCartItem = async (id: number): Promise<CartDTO> => {
+    return (await axiosInstance.delete<CartDTO>(`/api/cart/${id}`)).data;
+}

@@ -50,3 +50,37 @@ export async function PATCH(
         return NextResponse.json({ message: 'Failed to update cart item' }, { status: 500 });
     }
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    try {
+        const itemId = Number(params.id);
+        const token = req.cookies.get('cartToken')?.value;
+        
+        if (!token) {
+            return NextResponse.json({ error: 'Cart token not found' });
+        }
+
+        const cartItem = await prisma.cartItem.findFirst({
+            where: {
+                id: itemId,
+            }
+        });
+
+        if (!cartItem) {
+            return NextResponse.json({ error: 'Cart item not found' });
+        }
+
+        await prisma.cartItem.delete({
+            where: {
+                id: itemId,
+            }
+        });
+        
+        const updatedUserCart = await updateCartTotalAmount(token);     // Warenkorbsumme aktualisieren
+
+        return NextResponse.json(updatedUserCart);
+    } catch (error) {
+        console.log('[CART_DELETE] Server Error', error);
+        return NextResponse.json({ message: 'Failed to remove cart item' }, { status: 500 });
+    }
+}

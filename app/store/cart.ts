@@ -58,7 +58,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       try {
         set({ loading: true, error: false });
         const data = await Api.cart.updateItemQuantity(id, quantity);
-        console.log('Fetched cart data:', data);
+        console.log('upgedated cart data:', data);
         set(getCartDetails(data));                // Daten aus Api-Response werden transformiert und im Store gesetzt
       } catch (error) {
         console.error(error);
@@ -68,7 +68,20 @@ export const useCartStore = create<CartState>((set, get) => ({
       }
     },
 
-  removeCartItem: async (id: number) => {},
+  removeCartItem: async (id: number) => {
+    try {
+        set({ loading: true, error: false });
+        const data = await Api.cart.removeCartItem(id);
+        console.log('Removed cart data:', data);
+        set(getCartDetails(data));                // Daten aus Api-Response werden transformiert und im Store gesetzt
+      } catch (error) {
+        console.error(error);
+        set({ error: true });
+      } finally {
+        set({ loading: false });
+      }
+  },
+
   addCartItem: async (values: any) => {},
 
 }));
