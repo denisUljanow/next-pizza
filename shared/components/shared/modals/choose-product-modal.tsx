@@ -5,11 +5,11 @@ import { cn } from '@/shared/lib/utils';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChooseProductForm } from '../choose-product-form';
-import { ProductWithRelations } from '@/app/@types/prisma';
+import { ProductWithRelationsPlain } from '@/app/@types/prisma';
 import { ChoosePizzaForm } from '../choose-pizza-form';
 
 interface Props {
-    product: ProductWithRelations;
+    product: ProductWithRelationsPlain;
     className?: string;
 }
 
