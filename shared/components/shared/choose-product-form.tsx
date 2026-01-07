@@ -6,12 +6,12 @@ import { Button } from '../ui';
 interface Props {
     className?: string;
     name: string;
+    price: number;
+    onSubmit: VoidFunction;
     imageUrl: string;
-    items?: any[];
-    onClickAdd?: VoidFunction;
 }
 
-export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, items, onClickAdd, }) => {
+export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, onSubmit, price }) => {
     const textDetails = '30 cm, dünne Teig 30';
     const totalPrice = 350;
 
@@ -25,9 +25,11 @@ export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, 
         </div>
         <div className="w-[380px] shrink-0 bg-[#f7f6f5] px-7 pb-7 pt-10">
             <Title text={name} size="md" className="font-extrabold mb-1" />
-            <p className="text-gray-400">{textDetails}</p>
-            <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
-                In den Warenkorb - {totalPrice} €
+
+            <Button 
+                className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+                onClick={onSubmit}>
+                In den Warenkorb - {price} €
             </Button>
         </div>
     </div>

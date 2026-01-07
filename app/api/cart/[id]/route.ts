@@ -51,23 +51,42 @@ export async function PATCH(
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+    req: NextRequest,
+    context: { params: Promise<{ id: string }> },
+) {
     try {
-        const itemId = Number(params.id);
+        const { id: paramId } = await context.params;
+        const itemId = Number(paramId);
         const token = req.cookies.get('cartToken')?.value;
         
+        if (!Number.isFinite(itemId)) {
+            return NextResponse.json({ error: 'Invalid cart item id' }, { status: 400 });
+        }
+
         if (!token) {
-            return NextResponse.json({ error: 'Cart token not found' });
+            return NextResponse.json({ error: 'Cart token not found' }, { status: 401 });
+        }
+
+        const cart = await prisma.cart.findFirst({
+            where: {
+                token,
+            },
+        });
+
+        if (!cart) {
+            return NextResponse.json({ error: 'Cart not found' }, { status: 404 });
         }
 
         const cartItem = await prisma.cartItem.findFirst({
             where: {
                 id: itemId,
+                cartId: cart.id,
             }
         });
 
         if (!cartItem) {
-            return NextResponse.json({ error: 'Cart item not found' });
+            return NextResponse.json({ error: 'Cart item not found' }, { status: 404 });
         }
 
         await prisma.cartItem.delete({
@@ -77,6 +96,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
         });
         
         const updatedUserCart = await updateCartTotalAmount(token);     // Warenkorbsumme aktualisieren
+
+        if (!updatedUserCart) {
+            return NextResponse.json({ error: 'Cart not found' }, { status: 404 });
+        }
 
         return NextResponse.json(updatedUserCart);
     } catch (error) {

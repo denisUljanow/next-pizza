@@ -68,6 +68,5 @@ npx prisma db push
 (to update prisma models):
 
 (1) delete all table entries in prisma studio
-(2) npx prisma generate
-(3) npx prisma db pull
-(4) npx prisma db push
+(2) npx prisma db push
+(3) npx prisma db seed # optional

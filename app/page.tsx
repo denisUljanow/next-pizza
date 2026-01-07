@@ -46,6 +46,7 @@ export default async function Home() {
     }),
   }));
   
+  console.log("categoriesWithPrice", categoriesWithPrice);
   return (
     <>
       <Container className="mt-10">

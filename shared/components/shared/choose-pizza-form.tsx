@@ -5,7 +5,7 @@ import { Button } from '../ui';
 import { PizzaImage } from './pizza-image';
 import { GroupVariants, Variant } from './group-variants';
 import { PizzaSizeKey, pizzaSizesMap, PizzaTypeKey, pizzaTypesMap } from '@/shared/constants/pizza';
-import { Ingredient, ProductItem } from '@prisma/client';
+import { IngredientPlain, ProductItemPlain } from '@/shared/types/prisma';
 import { IngredientItem } from './ingredient-item';
 import { useSet } from 'react-use';
 import { totalPizzaPrice } from '@/libs/calc-total-pizza-price';
@@ -14,31 +14,25 @@ interface Props {
     className?: string;
     name: string;
     imageUrl: string;
-    ingredients?: Ingredient[];
-    items: ProductItem[];
-    onClickAdd?: VoidFunction;
+    ingredients?: IngredientPlain[];
+    items: ProductItemPlain[];
+    onSubmit: (itemId: number, ingredients: number[]) => void;
 }
 
-export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, ingredients, items, onClickAdd, }) => {
+export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, ingredients, items, onSubmit }) => {
 
     
     const [size, setSize] = React.useState<PizzaSizeKey>(30);
     const [type, setType] = React.useState<PizzaTypeKey>(1);
     const textDetails = `${size} cm, ${pizzaTypesMap[type]}`;
     const [selectedIngredients, {toggle: addIngredient}] = useSet(new  Set<number>([]));
-    
-    const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => {
-        const numericValue = Number(value);
-        const combinationExists = items?.some(
-            (item) => item.pizzaType === type && item.size === numericValue,
-        );
+    const currentItemId = items.find((item) => item.pizzaType === type && item.size === size)?.id;
 
-        return {
-            name: text,
-            value,
-            disabled: !combinationExists,
-        };
-    }) as Variant[];
+    const handleClickAdd = () => {
+    if (currentItemId) {
+      onSubmit(currentItemId, Array.from(selectedIngredients));
+    }
+  };
     
     React.useEffect(() => {             // Die erste verfügbare Pizza-Größe wird ausgewählt, wenn die aktuelle Kombination nicht existiert 
         const currentCombinationExists = items?.some(
@@ -60,6 +54,19 @@ export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, in
         }
     }, [items, size, type]);
     
+    const sizeVariants = Object.entries(pizzaSizesMap).map(([value, text]) => {
+        const numericValue = Number(value);
+        const combinationExists = items?.some(
+            (item) => item.pizzaType === type && item.size === numericValue,
+        );
+
+        return {
+            name: text,
+            value,
+            disabled: !combinationExists,
+        };
+    }) as Variant[];
+
     const typeVariants = Object.entries(pizzaTypesMap).map(([value, text]) => ({
         name: text,
         value,
@@ -115,14 +122,16 @@ export const ChoosePizzaForm: React.FC<Props> = ({ className, name, imageUrl, in
                         key={ingredient.id}
                         imageUrl={ingredient.imageUrl}
                         name={ingredient.name}
-                        price={ingredient.price}
+                        price={Number(ingredient.price)}
                         onClick={() => addIngredient(ingredient.id)}
                         active={selectedIngredients.has(ingredient.id)}
                     />
                     ))}
                 </div>
             </div>
-            <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+            <Button 
+                onClick={handleClickAdd}
+                className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
                 In den Warenkorb - {totalPrice} €
             </Button>
         </div>

@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    const response = NextResponse.json(userCart ?? { totalAmount: 0, items: [] });
+    const response = NextResponse.json(userCart ?? { totalAmount: 0, items: [] });    // Wenn kein Warenkorb gefunden wurde, leere Struktur zurückgeben
 
     if (!cookieToken && userCart) {
       response.cookies.set('cartToken', userCart.token, {
@@ -77,6 +77,8 @@ export async function POST(req: NextRequest) {
         },
       }
     });
+
+    // Wenn Warenkorb-Artikel bereits existiert, Menge + 1, sonst neuen Artikel anlegen
 
     if (findCartItem) {
       await prisma.cartItem.update({
