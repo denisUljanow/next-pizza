@@ -6,19 +6,17 @@ import {
   SortPopup,
   Title,
 } from '@/shared/components/shared';
-import { prisma } from '@/libs/prisma';
+import { findPizzas, GetSearchParams } from '@/shared/lib/find-pizzas';
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          items: true,
-        },
-      },
-    },
-  });
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: GetSearchParams | Promise<GetSearchParams>;
+}) {
+  const resolvedSearchParams = await Promise.resolve(searchParams ?? {});
+  console.log("searchParams for ingr", resolvedSearchParams);
+  const categories = await findPizzas(resolvedSearchParams);
+  console.log("categories in page.tsx", categories);
 
   // Normalize Prisma Decimal fields so client components receive plain numbers
   const categoriesWithPrice = categories.map((category) => ({

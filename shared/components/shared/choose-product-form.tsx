@@ -1,5 +1,5 @@
 import { cn } from '@/shared/lib/utils';
-import React from 'react';
+import React from 'react'; 
 import { Title } from './title';
 import { Button } from '../ui';
 
@@ -7,11 +7,12 @@ interface Props {
     className?: string;
     name: string;
     price: number;
+    loading?: boolean;
     onSubmit: VoidFunction;
     imageUrl: string;
 }
 
-export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, onSubmit, price }) => {
+export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, loading, onSubmit, price }) => {
     const textDetails = '30 cm, dünne Teig 30';
     const totalPrice = 350;
 
@@ -27,8 +28,9 @@ export const ChooseProductForm: React.FC<Props> = ({ className, name, imageUrl, 
             <Title text={name} size="md" className="font-extrabold mb-1" />
 
             <Button 
+                loading={loading}
                 className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
-                onClick={onSubmit}>
+                onClick={() => onSubmit()}>
                 In den Warenkorb - {price} €
             </Button>
         </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { Header } from '@/shared/components/shared/header';
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         <main className="min-h-screen">
           <Header />
           {children}
+          <Toaster />
         </main>
       </body>
     </html>
