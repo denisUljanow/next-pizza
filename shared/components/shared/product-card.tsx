@@ -10,10 +10,11 @@ interface Props {
   price: number;
   count?: number;
   imageUrl: string;
+  ingredients?: Array<{ name: string }>;
   className?: string;
 }
 
-export const ProductCard: React.FC<Props> = ({ id, name, price, count, imageUrl, className }) => {
+export const ProductCard: React.FC<Props> = ({ id, name, price, count, imageUrl, ingredients, className }) => {
   return (
     <div className={className}>
       <Link href={`/product/${id}`}>
@@ -22,8 +23,7 @@ export const ProductCard: React.FC<Props> = ({ id, name, price, count, imageUrl,
         </div>
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
         <p className="text-sm text-gray-400">
-          Hähnchen, Mozzarella, Cheddar- und Parmesan-Käse, Käsesauce, Tomaten, Alfredo-Sauce,
-          Knoblauch
+          {ingredients && ingredients.map((ing) => ing.name).join(', ')}
         </p>
 
         <div className="flex justify-between items-center mt-4">

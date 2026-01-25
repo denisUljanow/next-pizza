@@ -3,25 +3,45 @@ import { prisma } from "@/libs/prisma";
 export interface GetSearchParams {
   query?: string;
   sortBy?: string;
-  sizes?: string;
-  types?: string;
-  ingredients?: string;
-  fromPrice?: string;
-  toPrice?: string;
+  sizes?: string | string[];
+  types?: string | string[];
+  ingredients?: string | string[];
+  fromPrice?: string | string[];
+  toPrice?: string | string[];
 }
 
 const DEFAULT_MIN_PRICE = 0;
 const DEFAULT_MAX_PRICE = 1000;
 
 export const findPizzas = async (params: GetSearchParams) => {
-    const sizes = params.sizes?.split(',').map(Number);
-    const pizzaTypes = params.types?.split(',').map(Number);
-    const ingredientsIdArr = params.ingredients?.split(',').map(Number);
-    console.log("ingredientsIdArr in findPizzas:", ingredientsIdArr);
-    //const ingredientsIdArr = [1,2,4,5,6,7];
+    const normalizeParam = (value?: string | string[]) => {
+        if (!value) return undefined;
+        return Array.isArray(value) ? value.join(',') : value;
+    };
 
-    const minPrice = Number(params.fromPrice) || DEFAULT_MIN_PRICE;
-    const maxPrice = Number(params.toPrice) || DEFAULT_MAX_PRICE;
+    const sizes = normalizeParam(params.sizes)?.split(',').map(Number).filter((id) => !Number.isNaN(id));
+    const pizzaTypes = normalizeParam(params.types)?.split(',').map(Number).filter((id) => !Number.isNaN(id));
+    const ingredientsIdArr = normalizeParam(params.ingredients)
+        ?.split(',')
+        .map(Number)
+        .filter((id) => !Number.isNaN(id));
+
+    const minPrice = Number(normalizeParam(params.fromPrice)) || DEFAULT_MIN_PRICE;
+    const maxPrice = Number(normalizeParam(params.toPrice)) || DEFAULT_MAX_PRICE;
+
+    const itemFilters: Record<string, unknown> = {};
+    if (sizes?.length) {
+        itemFilters.size = { in: sizes };
+    }
+    if (pizzaTypes?.length) {
+        itemFilters.pizzaType = { in: pizzaTypes };
+    }
+    if (minPrice || maxPrice) {
+        itemFilters.price = {
+        gte: minPrice,
+        lte: maxPrice,
+        };
+    }
 
     const categories = await prisma.category.findMany({
         include: {
@@ -30,15 +50,20 @@ export const findPizzas = async (params: GetSearchParams) => {
                 id: 'desc',
                 },
                 where: {
-                ingredients: ingredientsIdArr
+                ingredients: ingredientsIdArr?.length
                     ? {
                         some: {
                         id: {
                             in: ingredientsIdArr,
-                        },
+                            },
                         },
                     }
                     : undefined,
+                    items: Object.keys(itemFilters).length
+                        ? {
+                            some: itemFilters,
+                        }
+                        : undefined,
                 },
                 include: {
                 ingredients: true,
