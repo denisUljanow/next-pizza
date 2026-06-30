@@ -1,10 +1,17 @@
 import { prisma } from '@/libs/prisma';
-import { Param } from '@prisma/client/runtime/library';
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { findOrCreateCart } from '@/shared/lib/find-or-create-cart';
 import { CreateCartItemValues } from '@/shared/services/dto/cart.dto';
 import { updateCartTotalAmount } from '@/shared/lib/updateCartTotalAmount';
+
+const isSameIngredientSet = (left: number[], right: number[]) => {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  return left.every((id, index) => id === right[index]);
+};
 
 export async function GET(req: NextRequest) {
   try {
@@ -50,7 +57,7 @@ export async function GET(req: NextRequest) {
     }
 
     return response;
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Failed to fetch cart' }, { status: 500 });
   }
 }
@@ -67,15 +74,22 @@ export async function POST(req: NextRequest) {
 
     const data = (await req.json()) as CreateCartItemValues;    // Typdefinition für die übergebenen Werte von Client an Server
 
-    const findCartItem = await prisma.cartItem.findFirst({      // Prüfen, ob der hinzuzufügende Artikel samt Zutaten bereits im Warenkorb ist
+    const ingredientsIds = [...new Set(data.ingredients ?? [])].sort((a, b) => a - b);
+
+    const cartItems = await prisma.cartItem.findMany({      // Prüfen, ob der hinzuzufügende Artikel samt Zutaten bereits im Warenkorb ist
       where: {
         cartId: userCart.id,
         productItemId: data.productItemId,
-        ingredients: {
-          every: { id: { in: data.ingredients },
-          },
-        },
-      }
+      },
+      include: {
+        ingredients: true,
+      },
+    });
+
+    const findCartItem = cartItems.find((item) => {
+      const itemIngredientsIds = item.ingredients.map((ingredient) => ingredient.id).sort((a, b) => a - b);
+
+      return isSameIngredientSet(itemIngredientsIds, ingredientsIds);
     });
 
     // Wenn Warenkorb-Artikel bereits existiert, Menge + 1, sonst neuen Artikel anlegen
@@ -94,7 +108,8 @@ export async function POST(req: NextRequest) {
         data: {
           cartId: userCart.id,
           productItemId: data.productItemId,
-          ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
+          quantity: 1,
+          ingredients: { connect: ingredientsIds.map((id) => ({ id })) },
         },
       });
     };
