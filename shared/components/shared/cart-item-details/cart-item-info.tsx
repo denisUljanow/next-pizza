@@ -9,9 +9,10 @@ interface Props {
   pizzaSize?: PizzaSizeKey;
   type?: PizzaTypeKey;
   ingredients?: Ingredient[];
+  className?: string;
 }
 
-export const CartItemInfo: React.FC<Props> = ({ name, details, pizzaSize, type, ingredients }) => {
+export const CartItemInfo: React.FC<Props> = ({ name, details, pizzaSize, type, ingredients, className }) => {
   const detailsList = details ? [details] : [];
 
   if (!details && pizzaSize && type) {
@@ -24,11 +25,11 @@ export const CartItemInfo: React.FC<Props> = ({ name, details, pizzaSize, type, 
   }
 
   return (
-    <div>
+    <div className={cn('flex flex-col gap-2', className)}>
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold flex-1 leading-6">{name}</h2>
       </div>
-      {detailsList.length > 0 && <p className="text-xs text-gray-400">{detailsList.join(', ')}</p>}
+      {detailsList.length > 0 && <p className="text-xs text-gray-400 w-[90%]">{detailsList.join(', ')}</p>}
     </div>
   );
 };

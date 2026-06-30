@@ -1,3 +1,4 @@
+import { Header } from "@/shared/components/shared/header";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function RootGroupLayout({
 }>) {
   return (
     <>
+      <Header />
       {children}
       {modal}
     </>

@@ -21,29 +21,15 @@ import { useCartStore } from '@/app/store/cart';
 import { PizzaSizeKey, PizzaTypeKey } from '@/shared/constants/pizza';
 import { Ingredient } from '@prisma/client';
 import { Title } from './title';
+import { useCart } from '@/shared/hooks/use-cart';
 
-interface Props {
-className?: string;
-}
 
-export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children, className }) => {
-  const totalAmount = useCartStore((state) => state.totalAmount);
-  const items = useCartStore((state) => state.items);
-  const removeCartItem = useCartStore((state) => state.removeCartItem);
-  const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
-  console.log('CartDrawer items:', items);
-  const fetchCartItems = useCartStore((state) => state.fetchCartItems);
-  console.log('fetchCartItems:', fetchCartItems);
-  const onClickCountButton = (id: number, quantity: number, type: 'plus' | 'minus') => {
-    const newQuantity = type === 'plus' ? quantity + 1 : quantity - 1;
-    updateItemQuantity(id, newQuantity);
-  };
+export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
+  const { totalAmount, items, removeCartItem, onClickCountButton, updateItemQuantity} = useCart();
   
 
-  React.useEffect(() => {
-    fetchCartItems();
-  }, [fetchCartItems]);
-  /////////////////////////////////
+
+  
   return (
     <Sheet>
         <SheetTrigger asChild>{children}</SheetTrigger>
