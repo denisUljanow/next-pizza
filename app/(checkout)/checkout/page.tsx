@@ -7,8 +7,12 @@ import { Container, Title } from "@/shared/components/shared";
 import { useCart } from "@/shared/hooks/use-cart";
 import { CheckoutAddressForm, CheckoutCart, CheckoutFormSchema, CheckoutPersonalForm, CheckoutSidebar } from "@/shared/components/shared/checkout";
 import { CheckoutFormValues } from "@/shared/components/shared/checkout/checkout-form-schema";
+import { createOrder } from "@/app/actions";
+import toast from "react-hot-toast";
+import React from "react";
 
 export default function CheckoutPage() {
+    const [submitting, setSubmitting] = React.useState(false);
     const { totalAmount, items, removeCartItem, onClickCountButton } = useCart();
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(CheckoutFormSchema),
@@ -22,8 +26,28 @@ export default function CheckoutPage() {
         },
     });
 
-    const onSubmit = (data: CheckoutFormValues) => {
-        console.log(data);
+    const onSubmit = async (data: CheckoutFormValues) => {
+        try {
+            setSubmitting(true);
+            const url = await createOrder(data) as string | undefined;
+
+            toast.success('Bestellung erfolgreich erstellt! Weiterleitung zur Zahlungsseite...', {
+                icon: '✅',
+            });
+
+            if (url) {
+                window.location.href = url;
+            }
+
+        } catch (error) {
+            console.log(error);
+            setSubmitting(false);
+            toast.error('Fehler beim Erstellen der Bestellung. Bitte versuchen Sie es erneut.', {
+                icon: '❌',
+            });
+        } finally {
+            setSubmitting(false);
+        }
     }
 
     return (
@@ -49,7 +73,7 @@ export default function CheckoutPage() {
 
                         {/* Right side */}
                         <div className="w-[450px]">
-                            <CheckoutSidebar totalAmount={totalAmount} />
+                            <CheckoutSidebar submitting={submitting} totalAmount={totalAmount} />
                         </div>
                     </div>
                 </form>

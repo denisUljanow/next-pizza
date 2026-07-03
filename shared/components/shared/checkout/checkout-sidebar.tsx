@@ -11,9 +11,10 @@ const DELIVERY_PRICE = 10;
 interface Props {
   className?: string;
   totalAmount: number;
+  submitting?: boolean;
 }
 
-export const CheckoutSidebar: React.FC<Props> = ({ className, totalAmount }) => {
+export const CheckoutSidebar: React.FC<Props> = ({ className, totalAmount, submitting }) => {
     const vatPrice = (totalAmount / 100) * VAT;
     const totalPrice = totalAmount + vatPrice + DELIVERY_PRICE;
 
@@ -43,7 +44,7 @@ export const CheckoutSidebar: React.FC<Props> = ({ className, totalAmount }) => 
             </div>
         } value={`€ ${DELIVERY_PRICE.toFixed(2)}`} />
 
-        <Button type="submit" className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
+        <Button disabled={submitting} type="submit" className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
             Bestellung aufgeben
             <ArrowRight className="w-5 ml-2" />
         </Button>
