@@ -1,7 +1,11 @@
 import { prisma } from '@/libs/prisma';
 import { getStripeClient } from '@/libs/stripe';
+import { OrderSuccessTemplate } from '@/shared/components/shared/email-templates/order-success';
+import { sendEmail } from '@/shared/lib';
+import type { CartItemDTO } from '@/shared/services/dto/cart.dto';
 import { OrderStatus } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { createElement } from 'react';
 
 export async function GET(req: NextRequest) {
   const sessionId = req.nextUrl.searchParams.get('session_id');
@@ -22,7 +26,20 @@ export async function GET(req: NextRequest) {
   }
 
   if (session.payment_status === 'paid') {
-    await prisma.order.update({
+    const order = await prisma.order.findFirst({
+      where: {
+        id: orderId,
+      },
+    });
+
+    if (!order) {
+      redirectUrl.searchParams.set('payment', 'order_not_found');
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    const wasAlreadyPaid = order.status === OrderStatus.SUCCEEDED;
+
+    const updatedOrder = await prisma.order.update({
       where: {
         id: orderId,
       },
@@ -31,6 +48,25 @@ export async function GET(req: NextRequest) {
         paymentId: session.id,
       },
     });
+
+    if (!wasAlreadyPaid) {
+      const items = typeof updatedOrder.items === 'string' ? JSON.parse(updatedOrder.items) : (updatedOrder.items as unknown as CartItemDTO[]);
+
+      try {
+        const emailData = await sendEmail(
+          updatedOrder.email,
+          'Next Pizza / Bestellung erfolgreich bezahlt #' + updatedOrder.id,
+          createElement(OrderSuccessTemplate, {
+            orderId: updatedOrder.id,
+            items,
+          }),
+          `Ihre Bestellung #${updatedOrder.id} wurde erfolgreich bezahlt.`
+        );
+        console.log('[StripeSuccess] Email sent', emailData);
+      } catch (error) {
+        console.error('[StripeSuccess] Failed to send success email', error);
+      }
+    }
 
     redirectUrl.searchParams.set('payment', 'success');
   } else {
