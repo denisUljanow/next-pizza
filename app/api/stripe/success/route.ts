@@ -74,5 +74,6 @@ export async function GET(req: NextRequest) {
   }
 
   redirectUrl.searchParams.set('orderId', String(orderId));
+  console.log('[StripeSuccess] Redirecting to', redirectUrl.toString());
   return NextResponse.redirect(redirectUrl);
 }
